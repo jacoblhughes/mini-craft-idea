@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://yefmyhv5gf48"]
+
+[ext_resource type="Script" path="res://src/game.gd" id="1_no36b"]
+[ext_resource type="PackedScene" uid="uid://b3ni0tddeminb" path="res://src/player.tscn" id="2_qckkw"]
+[ext_resource type="PackedScene" uid="uid://0infepu6ysw4" path="res://src/base.tscn" id="3_0cb2g"]
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("host_button", "join_button", "hud", "player_1_position", "player_2_position")]
+script = ExtResource("1_no36b")
+player_scene = ExtResource("2_qckkw")
+host_button = NodePath("HUD/host")
+join_button = NodePath("HUD/join")
+hud = NodePath("HUD")
+player_1_position = NodePath("Player1Position")
+player_2_position = NodePath("Player2Position")
+base_scene = ExtResource("3_0cb2g")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://src/base.tscn", "res://src/unit_1.tscn", "res://src/unit_2.tscn", "res://src/player.tscn")
+spawn_path = NodePath("..")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="host" type="Button" parent="HUD"]
+offset_right = 43.0
+offset_bottom = 31.0
+text = "host"
+
+[node name="join" type="Button" parent="HUD"]
+offset_left = 59.0
+offset_right = 104.0
+offset_bottom = 31.0
+text = "join"
+
+[node name="Player1Position" type="Marker2D" parent="."]
+position = Vector2(128, 128)
+
+[node name="Player2Position" type="Marker2D" parent="."]
+position = Vector2(960, 512)

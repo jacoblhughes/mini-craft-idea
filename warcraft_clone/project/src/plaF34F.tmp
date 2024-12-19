@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3ni0tddeminb"]
+
+[ext_resource type="Script" path="res://src/player.gd" id="1_13ery"]
+[ext_resource type="Texture2D" uid="uid://baupxht5ajgrg" path="res://icon.svg" id="2_eup16"]
+[ext_resource type="PackedScene" uid="uid://kj0cuc6r4y1x" path="res://src/unit_1.tscn" id="2_h2kjm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_73lt1"]
+size = Vector2(127, 128)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tf6u4"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("timer")]
+script = ExtResource("1_13ery")
+unit_1 = ExtResource("2_h2kjm")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_eup16")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_73lt1")
+disabled = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_tf6u4")
