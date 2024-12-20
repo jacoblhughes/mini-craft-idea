@@ -15,16 +15,10 @@ func _physics_process(delta):
 		velocity = Input.get_vector("ui_left","ui_right","ui_up","ui_down") * 400
 
 	move_and_slide()
-
+	
 func _on_timer_timeout():
 	var spawn_position = global_position + Vector2(0,10)
 	var unit = unit_1.instantiate()
 	unit.global_position = spawn_position
 	unit.direction = Vector2(1,1)
-	call_deferred("add_child",unit,true)
-	#elif inty >=2:
-		#var spawn_position = global_position + Vector2(0,10)
-		#var unit = unit_2.instantiate()
-		#unit.global_position = spawn_position
-		#unit.direction = Vector2(-1,-1)
-		#call_deferred("add_child",unit,true)
+	get_parent().call_deferred("add_child",unit,true)

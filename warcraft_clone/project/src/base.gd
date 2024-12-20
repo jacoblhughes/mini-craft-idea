@@ -49,4 +49,3 @@ func _on_timer_timeout():
 		unit.global_position = spawn_position
 		unit.direction = Vector2(-1,-1)
 		call_deferred("add_child",unit,true)
-

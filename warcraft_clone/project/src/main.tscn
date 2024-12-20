@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3rwjs8qfnly3"]
+
+[ext_resource type="Script" path="res://src/main.gd" id="1_4xcrv"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kdigp"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_4xcrv")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+zoom = Vector2(0.4, 0.4)
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_repeat = 2
+position = Vector2(-1, -614)
+points = PackedVector2Array(0, 0, 0, 1200)
+width = 32.0
+texture_mode = 1
+
+[node name="SpawnPositions" type="Node2D" parent="."]
+
+[node name="0" type="Node2D" parent="SpawnPositions" groups=["PlayerSpawns"]]
+position = Vector2(-1000, 0)
+
+[node name="1" type="Node2D" parent="SpawnPositions" groups=["PlayerSpawns"]]
+position = Vector2(1000, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_kdigp")

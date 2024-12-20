@@ -1,30 +1,33 @@
 extends Control
-
-const MAX_PLAYER = 2
+ 
+var peer = ENetMultiplayerPeer.new()
+@export var player_scene: PackedScene
+@export var host_button : Button
+@export var join_button : Button
+@export var start_button : Button
+@export var hud : CanvasLayer
+@export var player_1_position : Marker2D
+@export var player_2_position : Marker2D
+var players : int = 1
+var bases_ready : int = 0
+@export var base_scene : PackedScene
+signal start_spawn
 
 @export var address = "127.0.0.1"
 @export var port = 8080
+const MAX_PLAYER = 2
 
-@onready var host_button = $HostButton
-@onready var join_button = $JoinButton
-@onready var start_server_button = $StartServerButton
-@onready var line_edit = $LineEdit
-
-
-var peer
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	host_button.pressed.connect(on_host_button_pressed)
-	join_button.pressed.connect(on_join_button_pressed)
-	start_server_button.pressed.connect(on_start_server_button_pressed)
-	
+	host_button.pressed.connect(_on_host_pressed)
+	join_button.pressed.connect(_on_join_pressed)
+	start_button.pressed.connect(_on_start_pressed)
+		
 	multiplayer.peer_connected.connect(on_peer_connected)
 	multiplayer.peer_disconnected.connect(on_peer_disconnected)
 	multiplayer.connected_to_server.connect(on_connected_to_server)
 	multiplayer.connection_failed.connect(on_connection_failed)
 	
-func on_host_button_pressed():
+func _on_host_pressed():
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, MAX_PLAYER)
 	if error != OK:
@@ -35,24 +38,38 @@ func on_host_button_pressed():
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("waiting for players")
-	send_player_info(line_edit.text, multiplayer.get_unique_id())
+	send_player_info("Jacob"+str(multiplayer.get_unique_id()), multiplayer.get_unique_id())
 	
-	
-func on_join_button_pressed():
+func _on_join_pressed():
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(address, port)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.set_multiplayer_peer(peer)
 
-func on_start_server_button_pressed():
-	start_game.rpc()
+func _on_base_ready():
+	bases_ready +=1
+	print('here')
+	if bases_ready >=2:
+		print('both ready')
+		call_deferred("check_players")
+		
+func start_spawning():
+	start_spawn.emit()
 
+func check_players():
+	if players >=3:
+		start_spawning()
+
+
+func _on_start_pressed():
+	start_game.rpc()
+	pass
+	
 @rpc("any_peer", "call_local")
 func start_game():
-	print(GameManager.Players)
-	var scene = load("res://Scenes/main.tscn").instantiate()
+	var scene = load("res://src/main.tscn").instantiate()
 	get_tree().root.add_child(scene)
-	hide()
+	queue_free()
 
 @rpc("any_peer")
 func send_player_info(name, id):
@@ -76,7 +93,7 @@ func on_peer_disconnected(id):
 
 func on_connected_to_server():
 	print('Connected to server')
-	send_player_info.rpc_id(1, line_edit.text, multiplayer.get_unique_id())
+	send_player_info.rpc_id(1, "Jacob", multiplayer.get_unique_id())
 	
 func on_connection_failed():
 	print('Couldnt connect')
