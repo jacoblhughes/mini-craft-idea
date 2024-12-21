@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ni0tddeminb" path="res://src/player.tscn" id="2_wxvc1"]
 [ext_resource type="PackedScene" uid="uid://0infepu6ysw4" path="res://src/base.tscn" id="3_alf4x"]
 
-[node name="Lobby" type="Control" node_paths=PackedStringArray("host_button", "join_button", "start_button", "hud", "player_1_position", "player_2_position")]
+[node name="Lobby" type="Control" node_paths=PackedStringArray("host_button", "join_button", "start_button")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_gf16r")
@@ -12,17 +12,16 @@ player_scene = ExtResource("2_wxvc1")
 host_button = NodePath("host")
 join_button = NodePath("join")
 start_button = NodePath("start")
-hud = NodePath("")
-player_1_position = NodePath("")
-player_2_position = NodePath("")
 base_scene = ExtResource("3_alf4x")
 
 [node name="host" type="Button" parent="."]
+layout_mode = 0
 offset_right = 43.0
 offset_bottom = 31.0
 text = "host"
 
 [node name="join" type="Button" parent="."]
+layout_mode = 0
 offset_left = 59.0
 offset_right = 104.0
 offset_bottom = 31.0

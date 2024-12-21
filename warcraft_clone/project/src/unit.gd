@@ -11,11 +11,12 @@ var selected = false:
 	set = set_selected
 var target = null:
 	set = set_target
-	
+
+
 func _ready():
 	sprite.material = sprite.material.duplicate()
 	pass
-	
+
 func _physics_process(delta):
 	velocity = Vector2.ZERO
 	if target:
@@ -27,7 +28,7 @@ func _physics_process(delta):
 	if velocity.length() > 0:
 		rotation = velocity.angle()
 	move_and_slide()
-	
+
 func set_selected(value):
 	selected = value
 	if selected:
@@ -37,7 +38,7 @@ func set_selected(value):
 	#
 func set_target(value):
 	target = value
-	
+
 func avoid():
 	var result = Vector2.ZERO
 	var neighbors = $Detect.get_overlapping_bodies()

@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3rwjs8qfnly3"]
+[gd_scene load_steps=4 format=3 uid="uid://c3rwjs8qfnly3"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_4xcrv"]
+[ext_resource type="Script" path="res://src/canvas_layer.gd" id="2_5iheu"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kdigp"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_4xcrv")
+
+[node name="CanvasLayer" type="Node2D" parent="."]
+script = ExtResource("2_5iheu")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
